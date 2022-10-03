@@ -4,9 +4,9 @@ import { Route, Routes } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import Hangman from "./games/Hangman";
-import Snake from "./games/Snake";
-import Tennis from "./games/Tennis";
+import Hangman from "./pages/Hangman";
+import SnakeGame from "./pages/Snake";
+import Tennis from "./pages/Tennis";
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Main />} />
         <Route path="/hangman" element={<Hangman />} />
-        <Route path="/snake" element={<Snake />} />
+        <Route path="/snake" element={<SnakeGame />} />
         <Route path="/tennis" element={<Tennis />} />
       </Routes>
       <hr />
