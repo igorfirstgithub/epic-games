@@ -1,3 +1,5 @@
+// 12 oct 2022, 11:40
+
 import React, { useEffect, useRef } from "react";
 import { Hangman } from "../games/HangmanClass.js";
 
@@ -24,40 +26,55 @@ const HangmanGame = () => {
   useEffect(() => {
     let flag = false;
 
-    async function opsWithWord(data) {
+    function opsWithWord(data) {
+      console.log("data =", data);
       setWord(data.word);
-      console.log("useEffect " + data.word);
-      flag = true;
+      //console.log("useEffect word=" + word);
+      //flag = true;
+      //console.log("opsWithWord flag = ", flag);
       return data.word;
     }
 
-    async function opsWithDefinition(data) {
+    function opsWithDefinition(data) {
       if (data[0].meanings[0].definitions[0].definition) {
         setDefinition(data[0].meanings[0].definitions[0].definition);
+        flag = true;
       } else {
         setDefinition("No definition");
       }
     }
 
     const getWordandDefinition = async () => {
-      if (!definition) {
-        try {
-          const res = await fetch(randomWordAPI);
-          const data = await res.json();
-          const randomWord = await opsWithWord(data);
-          const definitionPhrase = await fetch(wordDefinitionAPI + randomWord);
-          const data2 = await definitionPhrase.json();
-          await opsWithDefinition(data2);
-        } catch (err) {
-          console.error(err);
-          setDefinition("No definition");
-        }
+      //if (!definition) {
+      try {
+        const res = await fetch(randomWordAPI);
+        const data = await res.json();
+        const randomWord = opsWithWord(data);
+        const definitionPhrase = await fetch(wordDefinitionAPI + randomWord);
+        const data2 = await definitionPhrase.json();
+        opsWithDefinition(data2);
+      } catch (err) {
+        console.error(err);
+        setDefinition("No definition");
       }
+      //}
     };
-    do {
-      getWordandDefinition();
-      console.log("word=", word, "  flag=", flag);
-    } while (false);
+
+    //getWordandDefinition();
+    const doWhile = async () => {
+      let count = 0;
+      do {
+        count++;
+        await getWordandDefinition();
+        console.log("word=", word, " do while flag=", flag, "counter =", count);
+        if (count > 300) {
+          break;
+          flag = true;
+        }
+      } while (!flag);
+    };
+
+    doWhile();
   }, []);
 
   /*useEffect(() => {
