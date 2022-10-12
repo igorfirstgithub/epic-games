@@ -195,6 +195,7 @@ export class Snake {
       this.ctx.canvas.height / 2
     );
     this.isGameOver = true;
+    document.body.removeEventListener("keydown", this.keyListener);
     clearTimeout(this.timeoutID);
   }
 

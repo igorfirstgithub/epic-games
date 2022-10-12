@@ -1,7 +1,7 @@
 // New version without jQuery
 
 export class Hangman {
-  constructor(ctx) {
+  constructor(ctx, word1, definition1) {
     this.key = null;
     this.words = ["yes", "monkey"]; //Array of words to guess
     this.ctx = ctx;
@@ -12,7 +12,9 @@ export class Hangman {
     this.wrongLetters = [];
 
     //Choose the word
-    this.word = this.words[Math.floor(Math.random() * this.words.length)]; //
+    //this.word = this.words[Math.floor(Math.random() * this.words.length)]; //
+    this.word = word1;
+    this.definition = definition1;
 
     //Set an array of answers
     this.guess = null;
@@ -179,6 +181,11 @@ export class Hangman {
       }
     } else {
       this.isGuessRight = false;
+    }
+
+    if (this.numberOfTries === 2) {
+      document.getElementById("service_4").innerHTML =
+        "Maybe this helps? Definition: " + this.definition;
     }
 
     if (this.numberOfTries === 0) {
