@@ -1,24 +1,11 @@
-// 12 oct 2022, 11:40
-
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Hangman } from "../games/HangmanClass.js";
 
 const HangmanGame = () => {
   const ref = useRef(HTMLCanvasElement);
 
-  const [word, setWord] = React.useState("");
-  const [definition, setDefinition] = React.useState("");
-
-  // useEffect(() => {
-  //   if (ref.current) {
-  //     const context = ref.current.getContext("2d");
-  //     if (context) {
-  //       const hangman = new Hangman(context);
-  //       console.log(hangman);
-  //       hangman.start();
-  //     }
-  //   }
-  // }, [ref]);
+  const [word, setWord] = useState("");
+  const [definition, setDefinition] = useState("");
 
   const randomWordAPI = "https://api.api-ninjas.com/v1/randomword";
   const wordDefinitionAPI = "https://api.dictionaryapi.dev/api/v2/entries/en/";
@@ -26,50 +13,43 @@ const HangmanGame = () => {
   useEffect(() => {
     let flag = false;
 
+    // This function does nothing to await for, therefore it does not need async
+    // i.e. it is completely synchronous
     function opsWithWord(data) {
-      console.log("data =", data);
       setWord(data.word);
-      //console.log("useEffect word=" + word);
-      //flag = true;
-      //console.log("opsWithWord flag = ", flag);
       return data.word;
     }
 
+    // This function does nothing to await for, therefore it does not need async
+    // i.e. it is completely synchronous
     function opsWithDefinition(data) {
       if (data[0].meanings[0].definitions[0].definition) {
         setDefinition(data[0].meanings[0].definitions[0].definition);
         flag = true;
-      } else {
-        setDefinition("No definition");
       }
     }
 
     const getWordandDefinition = async () => {
-      //if (!definition) {
       try {
         const res = await fetch(randomWordAPI);
         const data = await res.json();
-        const randomWord = opsWithWord(data);
+        const randomWord = opsWithWord(data); //sync func
         const definitionPhrase = await fetch(wordDefinitionAPI + randomWord);
         const data2 = await definitionPhrase.json();
-        opsWithDefinition(data2);
+        opsWithDefinition(data2); //sync func
       } catch (err) {
         console.error(err);
-        setDefinition("No definition");
       }
-      //}
     };
 
-    //getWordandDefinition();
     const doWhile = async () => {
       let count = 0;
       do {
         count++;
-        await getWordandDefinition();
-        console.log("word=", word, " do while flag=", flag, "counter =", count);
+        await getWordandDefinition(); // we are waiting for results of this func
+        //console.log("word=", word, " do while flag=", flag, "counter =", count);
         if (count > 300) {
           break;
-          flag = true;
         }
       } while (!flag);
     };
@@ -77,39 +57,14 @@ const HangmanGame = () => {
     doWhile();
   }, []);
 
-  /*useEffect(() => {
-    if (!definition) {
-      fetch(randomWordAPI)
-        .then((res) => res.json())
-        .then((data) => {
-          setWord(data.word);
-          console.log("useEffect " + data.word);
-          return data.word;
-        })
-        .then((randomWord) => fetch(wordDefinitionAPI + randomWord))
-        .then((res) => res.json())
-        .then((data) => {
-          if (data[0].meanings[0].definitions[0].definition) {
-            setDefinition(data[0].meanings[0].definitions[0].definition);
-          } else {
-            setDefinition("No definition else");
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          setDefinition("No Responce");
-        });
-    }
-  }, []);*/
-
   useEffect(() => {
     if (definition) {
-      //console.log(word, " = ", definition);
       if (ref.current) {
         const context = ref.current.getContext("2d");
         if (context) {
           const hangman = new Hangman(context, word, definition);
           console.log(hangman);
+          document.getElementById("service_2").innerHTML = "";
           hangman.start();
         }
       }
@@ -120,7 +75,9 @@ const HangmanGame = () => {
     <div id="hangman">
       <h2>Hangman game</h2>
       {/* <p style={{ width: "400px" }} id="service_1"></p> */}
-      <p style={{ width: "400px" }} id="service_2"></p>
+      <p style={{ width: "400px" }} id="service_2">
+        Searching for a word...
+      </p>
       <p style={{ width: "400px" }} id="service_3"></p>
       <p style={{ width: "400px" }} id="service_4"></p>
       <canvas ref={ref} width={400} height={400} />
@@ -129,15 +86,3 @@ const HangmanGame = () => {
 };
 
 export default HangmanGame;
-
-//Initial simple version
-
-// import React from "react";
-
-// export default function Hangman() {
-//   return (
-//     <div>
-//       <h2>Hangman</h2>
-//     </div>
-//   );
-// }
