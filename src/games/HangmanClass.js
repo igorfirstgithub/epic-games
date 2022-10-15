@@ -30,7 +30,12 @@ export class Hangman {
 
     this.keyListener = this.keyListener.bind(this);
 
-    this.serv1 = null; // This is an experiment how to insert newly created dom-elements to certain nodes
+    this.service1 = "";
+    this.service2 = "";
+    this.service3 = "";
+    this.service4 = "";
+
+    //this.serv1 = null; // This is an experiment how to insert newly created dom-elements to certain nodes
   }
 
   initAnswerArray() {
@@ -46,10 +51,12 @@ export class Hangman {
     console.log(this.answerArray);
 
     // How to append elements
+    /*
     let parent = document.getElementById("hangman");
     this.serv1 = document.createElement("p");
     this.serv1.id = "service_1";
     parent.insertBefore(this.serv1, parent.children[1]); // After h2([0]) but before serv2([1])
+    */
 
     //document.getElementById("service_1").innerHTML = "Service 1";
     document.body.addEventListener("keydown", this.keyListener);
@@ -184,8 +191,10 @@ export class Hangman {
     }
 
     if (this.numberOfTries === 2) {
-      document.getElementById("service_4").innerHTML =
-        "Maybe this helps? Definition: " + this.definition;
+      console.log("Two tries left. Service 4");
+      // document.getElementById("service_4").innerHTML =
+      this.service4 = "Maybe this helps? Definition: " + this.definition;
+      console.log(this.service4);
     }
 
     if (this.numberOfTries === 0) {
