@@ -1,9 +1,6 @@
-// New version without jQuery
-
 export class Hangman {
   constructor(ctx, word1, definition1) {
     this.key = null;
-    this.words = ["yes", "monkey"]; //Array of words to guess
     this.ctx = ctx;
 
     this.ctx.lineWidth = 4;
@@ -11,31 +8,22 @@ export class Hangman {
 
     this.wrongLetters = [];
 
-    //Choose the word
-    //this.word = this.words[Math.floor(Math.random() * this.words.length)]; //
     this.word = word1;
     this.definition = definition1;
 
-    //Set an array of answers
     this.guess = null;
     this.answerArray = [];
-
-    // for (let i = 0; i < this.word.length; i++) {
-    //   this.answerArray[i] = "_";
-    // }
 
     this.remainingLetters = this.word.length;
     this.numberOfTries = 9;
     this.isGuessRight = false;
-
-    this.keyListener = this.keyListener.bind(this);
 
     this.service1 = "";
     this.service2 = "";
     this.service3 = "";
     this.service4 = "";
 
-    //this.serv1 = null; // This is an experiment how to insert newly created dom-elements to certain nodes
+    this.keyListener = this.keyListener.bind(this);
   }
 
   initAnswerArray() {
@@ -58,11 +46,10 @@ export class Hangman {
     parent.insertBefore(this.serv1, parent.children[1]); // After h2([0]) but before serv2([1])
     */
 
-    //document.getElementById("service_1").innerHTML = "Service 1";
     document.body.addEventListener("keydown", this.keyListener);
+    this.service1 = this.answerArray.join(" ");
 
-    document.getElementById("service_1").innerHTML = this.answerArray.join(" ");
-    document.getElementById("service_2").innerHTML =
+    this.service2 =
       "RULES:\n" +
       "Try to open the word guessing letters from A to Z.\n" +
       "Read carefully the rules now, because there is no way back\n" +
@@ -72,32 +59,26 @@ export class Hangman {
 
   keyListener(event) {
     console.log(this.answerArray);
-    document.getElementById("service_1").innerHTML = this.answerArray.join(" ");
 
-    //this.ctx.clearRect(0, 0, 400, 400);  useful line
-    //this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    this.service1 = this.answerArray.join(" ");
     this.checkTheKey(event);
 
     if (this.numberOfTries > 0 && this.remainingLetters > 0) {
-      document.getElementById("service_1").innerHTML =
-        this.answerArray.join(" ");
-      document.getElementById("service_2").innerHTML =
-        "Wrong letters: " + this.wrongLetters.join(" ");
+      this.service1 = this.answerArray.join(" ");
+      this.service2 = "Wrong letters: " + this.wrongLetters.join(" ");
     } else if (this.numberOfTries > 0 && this.remainingLetters === 0) {
-      document.getElementById("service_1").innerHTML =
-        this.answerArray.join(" ");
-      document.getElementById("service_3").innerHTML =
+      this.service1 = this.answerArray.join(" ");
+      this.service3 =
         "VICTORY!!! It is really " +
         this.word.toUpperCase() +
         ". Press F5 to restart.";
-      document.getElementById("service_2").innerHTML =
-        "Wrong letters: " + this.wrongLetters.join(" ");
+      this.service2 = "Wrong letters: " + this.wrongLetters.join(" ");
     }
 
     if (this.numberOfTries < 0) {
-      document.getElementById("service_2").innerHTML = "GAME OVER";
-      document.getElementById("service_3").innerHTML =
-        "Useless clicking. Please, better press F5.";
+      this.service4 = "";
+      this.service2 = "GAME OVER";
+      this.service3 = "Useless clicking. Please, better press F5.";
     }
   }
 
@@ -151,7 +132,7 @@ export class Hangman {
   }
 
   checkTheKey(event) {
-    document.getElementById("service_2").innerHTML = "";
+    this.service2 = "";
 
     if (this.numberOfTries <= 0) {
       this.numberOfTries--;
@@ -164,8 +145,7 @@ export class Hangman {
     this.guess = String.fromCharCode(this.key).toLowerCase();
 
     if (this.key < 65 || (this.key > 90 && this.key !== 116)) {
-      document.getElementById("service_3").innerHTML =
-        "This is the wrong key. Better press A-Z";
+      this.service3 = "This is the wrong key. Better press A-Z";
       return;
     }
 
@@ -176,10 +156,10 @@ export class Hangman {
         this.answerArray[j] = this.guess;
         this.remainingLetters--;
       }
-    } // End of checking array
+    }
 
     if (!this.isGuessRight) {
-      document.getElementById("service_3").innerHTML =
+      this.service3 =
         String.fromCharCode(this.key) + " is a wrong letter. Guess carefully.";
       this.numberOfTries--;
       this.drawHangman(this.numberOfTries);
@@ -192,14 +172,12 @@ export class Hangman {
 
     if (this.numberOfTries === 2) {
       console.log("Two tries left. Service 4");
-      // document.getElementById("service_4").innerHTML =
       this.service4 = "Maybe this helps? Definition: " + this.definition;
       console.log(this.service4);
     }
 
     if (this.numberOfTries === 0) {
-      //this.ctx.clearRect(0, 0, 400, 400);
-      document.getElementById("service_3").innerHTML =
+      this.service3 =
         "GAME OVER. It was " +
         this.word.toUpperCase() +
         ". Press F5 to restart.";
