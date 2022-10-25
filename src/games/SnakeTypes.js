@@ -223,6 +223,7 @@ export class Snake {
     this.segments.unshift(newHead);
 
     if (newHead.equal(this.apple)) {
+      // Here happens hanging
       // Apple is eaten
       this.score++;
       //timeout -= 10;
@@ -233,9 +234,10 @@ export class Snake {
   }
 
   moveApple() {
-    let isAppleOnSnake = false;
+    let isAppleOnSnake;
 
     do {
+      isAppleOnSnake = false;
       let randomCol = Math.floor(Math.random() * (this.widthInBlocks - 2)) + 1;
       let randomRow = Math.floor(Math.random() * (this.heightInBlocks - 2)) + 1;
 
@@ -247,7 +249,7 @@ export class Snake {
           break;
         }
       }
-    } while (isAppleOnSnake === true);
+    } while (isAppleOnSnake);
   }
 
   checkCollision(head) {

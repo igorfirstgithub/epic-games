@@ -11,3 +11,90 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.snake-title {
+  text-align: center;
+  color: black;
+  font-size: x-large;
+}
+
+.snake-canvas {
+text-align: center;
+}
+
+.hangman-canvas {
+  text-align: center;
+}
+
+.canvas-div {
+  text-align: center;
+}
+
+.tennis-div {
+  text-align: center;
+}
+
+.hangman-div {
+  text-align: center;
+  height: 500px;
+  width: 400px;
+  margin: auto;
+}
+
+.snake-start-game {
+  background-color: green;
+  border: none;
+  color: white;
+  margin: 0 auto;
+  border-radius: 5px;
+  width: 200px;
+  height: 30px;
+  font-size: large;
+}
+
+.snake-pause-game {
+  background-color: burlywood;
+  border: none;
+  color: black;
+  margin: 0 auto;
+  border-radius: 5px;
+  width: 100px;
+  height: 30px;
+  font-size: large;
+}
+
+.game-links-all {
+  display: flex;
+}
+
+.game-link {
+  padding-left: 15px;
+  padding-right: 15px;
+  color: rgb(0, 85, 128);
+  text-decoration: none;
+}
+
+/* .game-link:visited {
+  
+} */
+.main-div {
+  height: 500px;
+  text-align: center; 
+  display: grid;
+  
+}
+
+.main-text {
+  margin: auto;
+  font-size: 48px;
+}
+    
+.footer-style {
+  position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background-color: whitesmoke;
+    padding-left: 20px;
+}

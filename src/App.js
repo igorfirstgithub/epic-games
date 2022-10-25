@@ -19,7 +19,7 @@ function App() {
         <Route path="/snake" element={<SnakeGame />} />
         <Route path="/tennis" element={<Tennis />} />
       </Routes>
-      <hr />
+      {/* <hr /> */}
       <Footer />
     </div>
   );

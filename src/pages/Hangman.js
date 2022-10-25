@@ -100,29 +100,24 @@ const HangmanGame = () => {
   }, [hangman]);
 
   return (
-    <div id="hangmanID">
+    <div className="hangman-div">
       <h2>Hangman game</h2>
-      {hangman && (
-        <p style={{ width: "400px" }} id="service_1">
-          {screenText.serv1}
-        </p>
-      )}
+      {hangman && <p className="hangman-messages">{screenText.serv1}</p>}
 
-      <p style={{ width: "400px" }} id="service_2">
+      <p width={400} className="hangman-messages">
         {screenText.serv2}
       </p>
 
+      {/* {hangman && <p className="hangman-messages">{screenText.serv3}</p>}
+      {hangman && <p className="hangman-messages">{screenText.serv4}</p>} */}
+
       {hangman && (
-        <p style={{ width: "400px" }} id="service_3">
-          {screenText.serv3}
-        </p>
+        <>
+          <p className="hangman-messages">{screenText.serv3}</p>
+          <p className="hangman-messages">{screenText.serv4}</p>
+        </>
       )}
-      {hangman && (
-        <p style={{ width: "400px" }} id="service_4">
-          {screenText.serv4}
-        </p>
-      )}
-      <canvas ref={ref} width={400} height={400} />
+      <canvas className="hangman-canvas" ref={ref} width={200} height={200} />
     </div>
   );
 };

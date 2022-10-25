@@ -28,7 +28,7 @@ const TennisGame = () => {
   }, [ref]);
 
   return (
-    <div>
+    <div className="tennis-div">
       <h2>Tennis game</h2>
       <canvas ref={ref} width={400} height={400} />
     </div>
