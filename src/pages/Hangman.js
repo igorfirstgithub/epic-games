@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Hangman } from "../games/HangmanClass.js";
+import setClassNameToCurrent from "../classToCurr";
 
 const HangmanGame = () => {
+  setClassNameToCurrent();
+
   const ref = useRef(HTMLCanvasElement);
 
   const [word, setWord] = useState("");

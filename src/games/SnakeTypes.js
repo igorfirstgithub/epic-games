@@ -93,7 +93,7 @@ export class Snake {
 
   pause() {
     this.pauseGame = !this.pauseGame;
-    console.log(this.pauseGame);
+    //console.log(this.pauseGame);
     this.timeoutID = setTimeout(this.gameLoop, this.timeout);
   }
 

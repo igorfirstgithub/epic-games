@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Snake } from "../games/SnakeTypes.js";
+import setClassNameToCurrent from "../classToCurr";
 
 const SnakeGame = () => {
+  setClassNameToCurrent();
+
   const ref = useRef(HTMLCanvasElement);
   const [snake, setSnake] = useState();
   const [isGameRunning, setIsGameRunning] = useState(false);
@@ -10,7 +13,7 @@ const SnakeGame = () => {
     if (ref.current) {
       const context = ref.current.getContext("2d");
       if (context) {
-        console.log(snake);
+        //console.log(snake);
         setSnake(new Snake(context));
       }
     }
@@ -26,9 +29,9 @@ const SnakeGame = () => {
   function startNewGame() {
     if (snake.isGameOver) {
       snake.restart();
-      console.log(snake.timeoutID);
+      //console.log(snake.timeoutID);
     } else if (snake.pauseGame && !isGameRunning) {
-      console.log(snake.timeoutID);
+      //console.log(snake.timeoutID);
       snake.pause();
       setIsGameRunning(true);
     }

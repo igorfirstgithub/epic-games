@@ -1,20 +1,10 @@
-//--------- initial simple version -----------
-// import React from "react";
-
-// export default function Tennis() {
-//   return (
-//     <div>
-//       <h2>Tennis</h2>
-//     </div>
-//   );
-// }
-
-//--------------------------------------------------------
-
 import React, { useEffect, useRef } from "react";
 import { Tennis } from "../games/TennisTypes";
+import setClassNameToCurrent from "../classToCurr";
 
 const TennisGame = () => {
+  setClassNameToCurrent();
+
   const ref = useRef(HTMLCanvasElement);
 
   useEffect(() => {

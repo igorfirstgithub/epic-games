@@ -67,11 +67,30 @@ text-align: center;
   display: flex;
 }
 
-.game-link {
+.link {
   padding-left: 15px;
   padding-right: 15px;
   color: rgb(0, 85, 128);
   text-decoration: none;
+}
+
+.link:hover {
+  color: red;
+  background-color: green;
+  border: 1px solid black;
+  
+}
+
+.current {
+  color: orange;
+  text-decoration: none;
+}
+
+.current:hover {
+  color: orange;
+  text-decoration: none;
+  background-color: white;
+  border: none;
 }
 
 /* .game-link:visited {
