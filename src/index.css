@@ -65,6 +65,7 @@ text-align: center;
 
 .game-links-all {
   display: flex;
+  
 }
 
 .link {
@@ -75,9 +76,9 @@ text-align: center;
 }
 
 .link:hover {
-  color: red;
+  color: white;
   background-color: green;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   
 }
 
@@ -93,9 +94,6 @@ text-align: center;
   border: none;
 }
 
-/* .game-link:visited {
-  
-} */
 .main-div {
   height: 500px;
   text-align: center; 
