@@ -5,22 +5,22 @@ import setClassNameToCurrent from "../classToCurr";
 const TennisGame = () => {
   setClassNameToCurrent();
 
-  const ref = useRef(HTMLCanvasElement);
+  const canvasRef = useRef(HTMLCanvasElement);
 
   useEffect(() => {
-    if (ref.current) {
-      const context = ref.current.getContext("2d");
+    if (canvasRef.current) {
+      const context = canvasRef.current.getContext("2d");
       if (context) {
         const tennis = new Tennis(context);
         tennis.start();
       }
     }
-  }, [ref]);
+  }, [canvasRef]);
 
   return (
     <div className="tennis-div">
       <h2>Tennis game</h2>
-      <canvas ref={ref} width={400} height={400} />
+      <canvas ref={canvasRef} width={400} height={400} />
     </div>
   );
 };

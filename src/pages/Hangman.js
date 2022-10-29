@@ -5,43 +5,39 @@ import setClassNameToCurrent from "../classToCurr";
 const HangmanGame = () => {
   setClassNameToCurrent();
 
-  const ref = useRef(HTMLCanvasElement);
+  const canvasRef = useRef(HTMLCanvasElement);
 
   const [word, setWord] = useState("");
   const [definition, setDefinition] = useState("");
   const [hangman, setHangman] = useState(null);
   const [screenText, setScreenText] = useState({
-    serv1: "",
-    serv2: "Searching for a word...",
-    serv3: "",
-    serv4: "",
+    serviceText1_AnswerArray: "",
+    serviceText2: "Searching for a word...",
+    serviceText3: "",
+    serviceText4_Definition: "",
   });
 
   const randomWordAPI = "https://api.api-ninjas.com/v1/randomword";
   const wordDefinitionAPI = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
   function handleKeyStrokes() {
-    console.log("Number of tries from page = ", hangman.numberOfTries);
+    //console.log("Number of tries from page = ", hangman.numberOfTries);
     setScreenText({
-      serv1: hangman.service1,
-      serv2: hangman.service2,
-      serv3: hangman.service3,
-      serv4: hangman.service4,
+      serviceText1_AnswerArray: hangman.serviceText1_AnswerArray,
+      serviceText2: hangman.serviceText2,
+      serviceText3: hangman.serviceText3,
+      serviceText4_Definition: hangman.serviceText4_Definition,
     });
   }
 
   useEffect(() => {
     let flag = false;
 
-    // This function does nothing to await for, therefore it does not need async
-    // i.e. it is completely synchronous
     function opsWithWord(data) {
       setWord(data.word);
       return data.word;
     }
 
-    // This function does nothing to await for, therefore it does not need async
-    // i.e. it is completely synchronous
     function opsWithDefinition(data) {
       if (data[0].meanings[0].definitions[0].definition) {
         setDefinition(data[0].meanings[0].definitions[0].definition);
@@ -53,36 +49,36 @@ const HangmanGame = () => {
       try {
         const res = await fetch(randomWordAPI);
         const data = await res.json();
-        const randomWord = opsWithWord(data); //sync func
+        const randomWord = opsWithWord(data);
         const definitionPhrase = await fetch(wordDefinitionAPI + randomWord);
         const data2 = await definitionPhrase.json();
-        opsWithDefinition(data2); //sync func
+        opsWithDefinition(data2);
       } catch (err) {
         console.error(err);
       }
     };
 
-    const doWhile = async () => {
+    const getWordAndDefTogether = async () => {
       let count = 0;
       do {
         count++;
-        await getWordandDefinition(); // we are waiting for results of this func
+        await getWordandDefinition();
         if (count > 50) {
           break;
         }
       } while (!flag);
     };
 
-    doWhile();
+    getWordAndDefTogether();
   }, []);
 
   useEffect(() => {
     if (definition) {
-      if (ref.current) {
-        const context = ref.current.getContext("2d");
+      if (canvasRef.current) {
+        const context = canvasRef.current.getContext("2d");
         if (context) {
           setHangman(new Hangman(context, word, definition));
-          setScreenText((prevText) => ({ ...prevText, serv2: "" }));
+          setScreenText((prevText) => ({ ...prevText, serviceText2: "" }));
         }
       }
     }
@@ -93,10 +89,10 @@ const HangmanGame = () => {
       hangman.start();
       window.addEventListener("keydown", handleKeyStrokes);
       setScreenText({
-        serv1: hangman.service1,
-        serv2: hangman.service2,
-        serv3: hangman.service3,
-        serv4: hangman.service4,
+        serviceText1_AnswerArray: hangman.serviceText1_AnswerArray,
+        serviceText2: hangman.serviceText2,
+        serviceText3: hangman.serviceText3,
+        serviceText4_Definition: hangman.serviceText4_Definition,
       });
     }
     return () => window.removeEventListener("keydown", handleKeyStrokes);
@@ -105,22 +101,30 @@ const HangmanGame = () => {
   return (
     <div className="hangman-div">
       <h2>Hangman game</h2>
-      {hangman && <p className="hangman-messages">{screenText.serv1}</p>}
+      {hangman && (
+        <p className="hangman-messages">
+          {screenText.serviceText1_AnswerArray}
+        </p>
+      )}
 
       <p width={400} className="hangman-messages">
-        {screenText.serv2}
+        {screenText.serviceText2}
       </p>
-
-      {/* {hangman && <p className="hangman-messages">{screenText.serv3}</p>}
-      {hangman && <p className="hangman-messages">{screenText.serv4}</p>} */}
 
       {hangman && (
         <>
-          <p className="hangman-messages">{screenText.serv3}</p>
-          <p className="hangman-messages">{screenText.serv4}</p>
+          <p className="hangman-messages">{screenText.serviceText3}</p>
+          <p className="hangman-messages">
+            {screenText.serviceText4_Definition}
+          </p>
         </>
       )}
-      <canvas className="hangman-canvas" ref={ref} width={200} height={200} />
+      <canvas
+        className="hangman-canvas"
+        ref={canvasRef}
+        width={200}
+        height={200}
+      />
     </div>
   );
 };

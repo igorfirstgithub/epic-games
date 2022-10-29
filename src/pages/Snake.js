@@ -5,19 +5,19 @@ import setClassNameToCurrent from "../classToCurr";
 const SnakeGame = () => {
   setClassNameToCurrent();
 
-  const ref = useRef(HTMLCanvasElement);
+  const canvasRef = useRef(HTMLCanvasElement);
   const [snake, setSnake] = useState();
   const [isGameRunning, setIsGameRunning] = useState(false);
 
   useEffect(() => {
-    if (ref.current) {
-      const context = ref.current.getContext("2d");
+    if (canvasRef.current) {
+      const context = canvasRef.current.getContext("2d");
       if (context) {
         //console.log(snake);
         setSnake(new Snake(context));
       }
     }
-  }, [ref]);
+  }, [canvasRef]);
 
   useEffect(() => {
     if (snake) {
@@ -54,7 +54,12 @@ const SnakeGame = () => {
       )}
       <br />
       <div>
-        <canvas className="snake-canvas" ref={ref} width={400} height={400} />
+        <canvas
+          className="snake-canvas"
+          ref={canvasRef}
+          width={400}
+          height={400}
+        />
       </div>
     </div>
   );

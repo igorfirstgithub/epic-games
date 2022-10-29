@@ -18,10 +18,10 @@ export class Hangman {
     this.numberOfTries = 9;
     this.isGuessRight = false;
 
-    this.service1 = "";
-    this.service2 = "";
-    this.service3 = "";
-    this.service4 = "";
+    this.serviceText1_AnswerArray = ""; //this.answerArray.join(" ");
+    this.serviceText2 = ""; // nothing special, just serviceText
+    this.serviceText3 = ""; // nothing special, just serviceText
+    this.serviceText4_Definition = ""; // Definition
 
     this.keyListener = this.keyListener.bind(this);
   }
@@ -47,9 +47,9 @@ export class Hangman {
     */
 
     document.body.addEventListener("keydown", this.keyListener);
-    this.service1 = this.answerArray.join(" ");
+    this.serviceText1_AnswerArray = this.answerArray.join(" ");
 
-    this.service2 =
+    this.serviceText2 =
       "RULES:\n" +
       "Try to open the word guessing letters from A to Z.\n" +
       "Read carefully the rules now, because there is no way back\n" +
@@ -60,25 +60,25 @@ export class Hangman {
   keyListener(event) {
     console.log(this.answerArray);
 
-    this.service1 = this.answerArray.join(" ");
+    this.serviceText1_AnswerArray = this.answerArray.join(" ");
     this.checkTheKey(event);
 
     if (this.numberOfTries > 0 && this.remainingLetters > 0) {
-      this.service1 = this.answerArray.join(" ");
-      this.service2 = "Wrong letters: " + this.wrongLetters.join(" ");
+      this.serviceText1_AnswerArray = this.answerArray.join(" ");
+      this.serviceText2 = "Wrong letters: " + this.wrongLetters.join(" ");
     } else if (this.numberOfTries > 0 && this.remainingLetters === 0) {
-      this.service1 = this.answerArray.join(" ");
-      this.service3 =
+      this.serviceText1_AnswerArray = this.answerArray.join(" ");
+      this.serviceText3 =
         "VICTORY!!! It is really " +
         this.word.toUpperCase() +
         ". Press F5 to restart.";
-      this.service2 = "Wrong letters: " + this.wrongLetters.join(" ");
+      this.serviceText2 = "Wrong letters: " + this.wrongLetters.join(" ");
     }
 
     if (this.numberOfTries < 0) {
-      this.service4 = "";
-      this.service2 = "GAME OVER";
-      this.service3 = "Useless clicking. Please, better press F5.";
+      this.serviceText4_Definition = "";
+      this.serviceText2 = "GAME OVER";
+      this.serviceText3 = "Useless clicking. Please, better press F5.";
     }
   }
 
@@ -132,7 +132,7 @@ export class Hangman {
   }
 
   checkTheKey(event) {
-    this.service2 = "";
+    this.serviceText2 = "";
 
     if (this.numberOfTries <= 0) {
       this.numberOfTries--;
@@ -145,7 +145,7 @@ export class Hangman {
     this.guess = String.fromCharCode(this.key).toLowerCase();
 
     if (this.key < 65 || (this.key > 90 && this.key !== 116)) {
-      this.service3 = "This is the wrong key. Better press A-Z";
+      this.serviceText3 = "This is the wrong key. Better press A-Z";
       return;
     }
 
@@ -159,7 +159,7 @@ export class Hangman {
     }
 
     if (!this.isGuessRight) {
-      this.service3 =
+      this.serviceText3 =
         String.fromCharCode(this.key) + " is a wrong letter. Guess carefully.";
       this.numberOfTries--;
       this.drawHangman(this.numberOfTries);
@@ -172,12 +172,13 @@ export class Hangman {
 
     if (this.numberOfTries === 2) {
       console.log("Two tries left. Service 4");
-      this.service4 = "Maybe this helps? Definition: " + this.definition;
-      console.log(this.service4);
+      this.serviceText4_Definition =
+        "Maybe this helps? Definition: " + this.definition;
+      console.log(this.serviceText4_Definition);
     }
 
     if (this.numberOfTries === 0) {
-      this.service3 =
+      this.serviceText3 =
         "GAME OVER. It was " +
         this.word.toUpperCase() +
         ". Press F5 to restart.";
