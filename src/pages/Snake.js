@@ -1,20 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Snake } from "../games/SnakeTypes.js";
+import setClassNameToCurrent from "../classToCurr";
 
 const SnakeGame = () => {
-  const ref = useRef(HTMLCanvasElement);
+  setClassNameToCurrent();
+
+  const canvasRef = useRef(HTMLCanvasElement);
   const [snake, setSnake] = useState();
   const [isGameRunning, setIsGameRunning] = useState(false);
 
   useEffect(() => {
-    if (ref.current) {
-      const context = ref.current.getContext("2d");
+    if (canvasRef.current) {
+      const context = canvasRef.current.getContext("2d");
       if (context) {
-        console.log(snake);
+        //console.log(snake);
         setSnake(new Snake(context));
       }
     }
-  }, [ref]);
+  }, [canvasRef]);
 
   useEffect(() => {
     if (snake) {
@@ -26,9 +29,9 @@ const SnakeGame = () => {
   function startNewGame() {
     if (snake.isGameOver) {
       snake.restart();
-      console.log(snake.timeoutID);
+      //console.log(snake.timeoutID);
     } else if (snake.pauseGame && !isGameRunning) {
-      console.log(snake.timeoutID);
+      //console.log(snake.timeoutID);
       snake.pause();
       setIsGameRunning(true);
     }
@@ -39,12 +42,25 @@ const SnakeGame = () => {
   }
 
   return (
-    <div>
-      <h3>Snake game</h3>
-      {<button onClick={startNewGame}>Start new game</button>}
-      {isGameRunning && <button onClick={pauseGame}>Pause</button>}
-
-      <canvas ref={ref} width={400} height={400} />
+    <div className="canvas-div">
+      <h3 className="snake-title">Snake</h3>
+      <button className="snake-start-game" onClick={startNewGame}>
+        Start new game
+      </button>
+      {isGameRunning && (
+        <button className="snake-pause-game" onClick={pauseGame}>
+          Pause
+        </button>
+      )}
+      <br />
+      <div>
+        <canvas
+          className="snake-canvas"
+          ref={canvasRef}
+          width={400}
+          height={400}
+        />
+      </div>
     </div>
   );
 };
